@@ -28,6 +28,12 @@ struct Production {
     int id;
     char lhs;
     string rhs;
+
+    friend ostream& operator <<(ostream& out, const Production& p) {
+        string rhs = (p.rhs == "") ? string(1, LAMBDA) : p.rhs;
+        out << p.id << ": " << p.lhs << " -> " << rhs;
+        return out;
+    }
 };
 
 struct LR0Item {
@@ -348,6 +354,13 @@ set<LR0Item> getClosure(set<LR0Item> init) {
 
 
 
+
+
+
+
+
+
+
 DFAState nextState(DFAState state, char symbol) {
     DFAState nxt;
     for (LR0Item item : state) {
@@ -440,6 +453,11 @@ void printDFATransitions(ostream& out) {
 
 
 
+
+
+
+
+
 bool addActionAndCheckForFailure(int currId, char symbol, Action act) {
     if (actionTable[currId].count(symbol) > 0) {
         cout << "Found two actions for transition from state with id: " << currId << " with symbol " << symbol << ":\n";
@@ -473,7 +491,7 @@ bool buildActionAndGotoTables() {
                     return false;
                 }
             }
-            else if (item.afterDot == "") {
+            else if (item.idOfProduction != 0 && item.afterDot == "") {
                 Action act;
                 act.type = ACTION_TYPE::REDUCE;
                 act.id = item.idOfProduction;
@@ -536,6 +554,75 @@ void printGotoTable() {
 
 
 
+
+
+
+
+pair<bool, vector<int>> analyzeWord(string w) {
+    out << "Analyzing word " << w << ":\n";
+
+    w += END_SYMBOL;
+
+    vector<int> stk;
+    vector<int> productions;
+    stk.push_back(1); // initial DFA state;
+    while (true) {
+        out << "Stack: ";
+        for (int q : stk) {
+            out << q << ' ';
+        }
+        out << "w: " << w << '\n';
+        // out << "Prod: ";
+        // out.flush();
+        // for (int p : productions) {
+        //     out << allProd[p] << endl;
+        // }
+        // out << endl;
+
+        int currState = stk.back();
+        char currSymbol = w[0];
+
+        Action act = actionTable[currState][currSymbol];
+        if (act.type == ACTION_TYPE::ACCEPT) {
+            reverse(productions.begin(), productions.end());
+            return {true, productions};
+        }
+        else if (act.type == ACTION_TYPE::ERROR) {
+            reverse(productions.begin(), productions.end());
+            return {false, productions};
+        }
+        else if (act.type == ACTION_TYPE::SHIFT) {
+            stk.push_back(act.id);
+            w = w.substr(1);
+        }
+        else if (act.type == ACTION_TYPE::REDUCE) {
+            Production p = allProd[act.id];
+            size_t lenOfProd = p.rhs.size(); // TODO: what if lambda?
+            assert(stk.size() >= lenOfProd + 1);
+
+            for (unsigned c = 0; c < lenOfProd; ++c) {
+                stk.pop_back();
+            }
+
+            if (gotoTable[stk.back()][p.lhs] == 0) { // no transition found
+                reverse(productions.begin(), productions.end());
+                return {false, productions};
+            }
+            stk.push_back(gotoTable[stk.back()][p.lhs]);
+            productions.push_back(p.id);
+        }
+    }
+
+    assert(false);
+}
+
+
+
+
+
+
+
+
 int main() {
     assert(string("").substr(0, 1) == "");
     assert(string("a").substr(0, 0) == "");
@@ -590,8 +677,31 @@ int main() {
         return -1;
     }
 
+    out << "Grammer is SLR(1)!\n";
     printActionTable();
     printGotoTable();
 
+    int nWords;
+    in >> nWords;
+    for (int c = 0; c < nWords; ++c) {
+        string w;
+        in >> w;
+        string newWord = removeLambda(w); // TODO: is this ok?
 
+        auto p = analyzeWord(newWord);
+        bool inGrammar = p.first;
+        vector<int> productions = p.second;
+        if (inGrammar) {
+            out << "Word " << w << " is in the grammar. Productions:\n";
+            for (int prodIndex : productions) {
+                out << allProd[prodIndex] << '\n';
+            }
+            out << '\n';
+        }
+        else {
+            out << "Word " << w << " isn't in the grammar. \n\n";
+        }
+    }
+
+    return 0;
 }
