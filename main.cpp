@@ -352,15 +352,6 @@ set<LR0Item> getClosure(set<LR0Item> init) {
     return ret;
 }
 
-
-
-
-
-
-
-
-
-
 DFAState nextState(DFAState state, char symbol) {
     DFAState nxt;
     for (LR0Item item : state) {
@@ -396,9 +387,9 @@ void buildDFATransitionTable() {
     while (unmarked.size()) {
         DFAState curr = unmarked.front(); unmarked.pop();
 
-        // set<char> allSymbols = terminals;
-        // addSetToSet(allSymbols, nonTerminals);
-        vector<char> allSymbols = {'E', 'T', 'F', '(', '*', '+', 'n', ')'}; // TODO:
+        set<char> allSymbols = terminals;
+        addSetToSet(allSymbols, nonTerminals);
+        // vector<char> allSymbols = {'E', 'T', 'F', '(', '*', '+', 'n', ')'}; // TODO:
         for (const char& symbol : allSymbols) {
             DFAState nxt = nextState(curr, symbol);
 
