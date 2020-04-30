@@ -1,0 +1,257 @@
+=============== Printing First(symbol) ===============
+First( '#' ):
+'#', 
+First( '(' ):
+'(', 
+First( ')' ):
+')', 
+First( '*' ):
+'*', 
+First( '+' ):
+'+', 
+First( 'n' ):
+'n', 
+First( '$' ):
+'(', 'n', 
+First( 'E' ):
+'(', 'n', 
+First( 'F' ):
+'(', 'n', 
+First( 'T' ):
+'(', 'n', 
+=============== Printing First(symbol) ===============
+
+=============== Printing Follow(nonTerminal) ===============
+Follow( '$' ):
+
+Follow( 'E' ):
+'#', ')', '+', 
+Follow( 'F' ):
+'#', ')', '*', '+', 
+Follow( 'T' ):
+'#', ')', '*', '+', 
+=============== Printing Follow(nonTerminal) ===============
+
+state1
+0 $ -> .E
+1 E -> .T
+2 E -> .E+T
+3 T -> .F
+4 T -> .T*F
+5 F -> .n
+6 F -> .(E)
+
+
+state2
+0 $ -> E.
+2 E -> E.+T
+
+
+state3
+1 E -> T.
+4 T -> T.*F
+
+
+state4
+3 T -> F.
+
+
+state5
+1 E -> .T
+2 E -> .E+T
+3 T -> .F
+4 T -> .T*F
+5 F -> .n
+6 F -> .(E)
+6 F -> (.E)
+
+
+state6
+5 F -> n.
+
+
+state7
+2 E -> E+.T
+3 T -> .F
+4 T -> .T*F
+5 F -> .n
+6 F -> .(E)
+
+
+state8
+4 T -> T*.F
+5 F -> .n
+6 F -> .(E)
+
+
+state9
+2 E -> E.+T
+6 F -> (E.)
+
+
+state10
+2 E -> E+T.
+4 T -> T.*F
+
+
+state11
+4 T -> T*F.
+
+
+state12
+6 F -> (E).
+
+
+
+
+delta[1][(] = 5
+delta[1][E] = 2
+delta[1][F] = 4
+delta[1][T] = 3
+delta[1][n] = 6
+delta[2][+] = 7
+delta[3][*] = 8
+delta[4][?] = nothing
+delta[5][(] = 5
+delta[5][E] = 9
+delta[5][F] = 4
+delta[5][T] = 3
+delta[5][n] = 6
+delta[6][?] = nothing
+delta[7][(] = 5
+delta[7][F] = 4
+delta[7][T] = 10
+delta[7][n] = 6
+delta[8][(] = 5
+delta[8][F] = 11
+delta[8][n] = 6
+delta[9][)] = 12
+delta[9][+] = 7
+delta[10][*] = 8
+delta[11][?] = nothing
+delta[12][?] = nothing
+
+action[1][#] = ERROR
+action[1][(] = shift 5
+action[1][)] = ERROR
+action[1][*] = ERROR
+action[1][+] = ERROR
+action[1][n] = shift 6
+action[2][#] = ERROR
+action[2][(] = ERROR
+action[2][)] = ERROR
+action[2][*] = ERROR
+action[2][+] = shift 7
+action[2][n] = ERROR
+action[3][#] = reduce 1
+action[3][(] = ERROR
+action[3][)] = reduce 1
+action[3][*] = shift 8
+action[3][+] = reduce 1
+action[3][n] = ERROR
+action[4][#] = reduce 3
+action[4][(] = ERROR
+action[4][)] = reduce 3
+action[4][*] = reduce 3
+action[4][+] = reduce 3
+action[4][n] = ERROR
+action[5][#] = ERROR
+action[5][(] = shift 5
+action[5][)] = ERROR
+action[5][*] = ERROR
+action[5][+] = ERROR
+action[5][n] = shift 6
+action[6][#] = reduce 5
+action[6][(] = ERROR
+action[6][)] = reduce 5
+action[6][*] = reduce 5
+action[6][+] = reduce 5
+action[6][n] = ERROR
+action[7][#] = ERROR
+action[7][(] = shift 5
+action[7][)] = ERROR
+action[7][*] = ERROR
+action[7][+] = ERROR
+action[7][n] = shift 6
+action[8][#] = ERROR
+action[8][(] = shift 5
+action[8][)] = ERROR
+action[8][*] = ERROR
+action[8][+] = ERROR
+action[8][n] = shift 6
+action[9][#] = ERROR
+action[9][(] = ERROR
+action[9][)] = shift 12
+action[9][*] = ERROR
+action[9][+] = shift 7
+action[9][n] = ERROR
+action[10][#] = reduce 2
+action[10][(] = ERROR
+action[10][)] = reduce 2
+action[10][*] = shift 8
+action[10][+] = reduce 2
+action[10][n] = ERROR
+action[11][#] = reduce 4
+action[11][(] = ERROR
+action[11][)] = reduce 4
+action[11][*] = reduce 4
+action[11][+] = reduce 4
+action[11][n] = ERROR
+action[12][#] = reduce 6
+action[12][(] = ERROR
+action[12][)] = reduce 6
+action[12][*] = reduce 6
+action[12][+] = reduce 6
+action[12][n] = ERROR
+
+
+goto[1][$] = 0
+goto[1][E] = 2
+goto[1][F] = 4
+goto[1][T] = 3
+goto[2][$] = 0
+goto[2][E] = 0
+goto[2][F] = 0
+goto[2][T] = 0
+goto[3][$] = 0
+goto[3][E] = 0
+goto[3][F] = 0
+goto[3][T] = 0
+goto[4][$] = 0
+goto[4][E] = 0
+goto[4][F] = 0
+goto[4][T] = 0
+goto[5][$] = 0
+goto[5][E] = 9
+goto[5][F] = 4
+goto[5][T] = 3
+goto[6][$] = 0
+goto[6][E] = 0
+goto[6][F] = 0
+goto[6][T] = 0
+goto[7][$] = 0
+goto[7][E] = 0
+goto[7][F] = 4
+goto[7][T] = 10
+goto[8][$] = 0
+goto[8][E] = 0
+goto[8][F] = 11
+goto[8][T] = 0
+goto[9][$] = 0
+goto[9][E] = 0
+goto[9][F] = 0
+goto[9][T] = 0
+goto[10][$] = 0
+goto[10][E] = 0
+goto[10][F] = 0
+goto[10][T] = 0
+goto[11][$] = 0
+goto[11][E] = 0
+goto[11][F] = 0
+goto[11][T] = 0
+goto[12][$] = 0
+goto[12][E] = 0
+goto[12][F] = 0
+goto[12][T] = 0
+
+
