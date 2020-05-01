@@ -451,10 +451,10 @@ void printDFATransitions(ostream& out) {
 
 bool addActionAndCheckForFailure(int currId, char symbol, Action act) {
     if (actionTable[currId].count(symbol) > 0) {
-        cout << "Found two actions for transition from state with id: " << currId << " with symbol " << symbol << ":\n";
-        cout << actionTable[currId][symbol] << '\n';
-        cout << "conflicts with:\n";
-        cout << act << '\n';
+        out << "Found two actions for transition from state with id: " << currId << " with symbol " << symbol << ":\n";
+        out << actionTable[currId][symbol] << '\n';
+        out << "conflicts with:\n";
+        out << act << '\n';
         return true;
     }
     else {

@@ -1,3 +1,74 @@
+5 E
+E E+T
+E T
+T T*F
+T F
+F n
+5
+n*n*n
+n+n
+n+n*n+n*n
+n+n*
+n+*n
+
+
+
+
+2 A
+A Aaa
+A _
+3
+_
+aaaa
+aaa
+
+
+
+3 E
+E E+E
+E E*E
+E n
+2
+E + E
+
+
+5 S
+S aABb
+A aAc
+A _
+B bB
+B c
+4
+aacbbcb
+abbbcb
+acb
+accb
+
+
+3 A
+A Bb
+B Ba
+B _
+3
+aaab
+b
+aa
+
+
+
+
+6 E
+E E+T
+E T
+T T*F
+T F
+F (E)
+F i
+2
+(id*id)
+id*+id)
+
+
 6 E
 E TR
 R +TR
@@ -5,7 +76,8 @@ R *TR
 R _
 T n
 T (E)
-0
+1
+(n)*n
 #cursul 9
 
 
