@@ -389,7 +389,6 @@ void buildDFATransitionTable() {
 
         set<char> allSymbols = terminals;
         addSetToSet(allSymbols, nonTerminals);
-        // vector<char> allSymbols = {'E', 'T', 'F', '(', '*', '+', 'n', ')'}; // TODO:
         for (const char& symbol : allSymbols) {
             DFAState nxt = nextState(curr, symbol);
 
@@ -490,7 +489,6 @@ bool buildActionAndGotoTables() {
 
                 for (string str : follow[lhs]) {
                     if (str == "") {
-                        // TODO: what if we have LAMBDA in follow(A) ?
                         continue;
                     }
 
@@ -588,7 +586,7 @@ pair<bool, vector<int>> analyzeWord(string w) {
         }
         else if (act.type == ACTION_TYPE::REDUCE) {
             Production p = allProd[act.id];
-            size_t lenOfProd = p.rhs.size(); // TODO: what if lambda?
+            size_t lenOfProd = p.rhs.size();
             assert(stk.size() >= lenOfProd + 1);
 
             for (unsigned c = 0; c < lenOfProd; ++c) {
@@ -677,7 +675,7 @@ int main() {
     for (int c = 0; c < nWords; ++c) {
         string w;
         in >> w;
-        string newWord = removeLambda(w); // TODO: is this ok?
+        string newWord = removeLambda(w);
 
         auto p = analyzeWord(newWord);
         bool inGrammar = p.first;
